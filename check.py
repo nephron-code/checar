@@ -1,5 +1,6 @@
 import os
 import json
+import time
 from datetime import datetime, timezone
 
 import requests
@@ -10,6 +11,10 @@ from bs4 import BeautifulSoup
 URL = "https://www.gov.br/hubrasil/pt-br/acesso-a-informacao/agentes-publicos/concursos-e-selecoes/concursos/2026/convocacoes/hul-ufs"
 
 STATE_FILE = "state.json"
+
+# Retentativa em caso de falha de rede passageira:
+TENTATIVAS = 3       # quantas vezes tenta acessar o site
+ESPERA_SEG = 10      # pausa (segundos) entre as tentativas
 # =====================================================================
 
 TELEGRAM_TOKEN = os.environ["TELEGRAM_TOKEN"]
@@ -17,6 +22,7 @@ TELEGRAM_CHAT_ID = os.environ["TELEGRAM_CHAT_ID"]
 
 
 def fetch(url):
+    """Baixa a página, tentando algumas vezes se a rede falhar."""
     headers = {
         "User-Agent": (
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
@@ -24,9 +30,19 @@ def fetch(url):
             "Chrome/124.0 Safari/537.36"
         )
     }
-    r = requests.get(url, headers=headers, timeout=30)
-    r.raise_for_status()
-    return r.text
+    ultimo_erro = None
+    for i in range(1, TENTATIVAS + 1):
+        try:
+            r = requests.get(url, headers=headers, timeout=30)
+            r.raise_for_status()
+            return r.text
+        except requests.exceptions.RequestException as e:
+            ultimo_erro = e
+            print(f"Tentativa {i}/{TENTATIVAS} falhou: {e}")
+            if i < TENTATIVAS:
+                time.sleep(ESPERA_SEG)
+    # esgotou as tentativas: repassa o erro para o main tratar
+    raise ultimo_erro
 
 
 def extract_items(html, base_url):
@@ -77,7 +93,15 @@ def notify(text):
 
 
 def main():
-    html = fetch(URL)
+    # Se o site não responder após as tentativas, encerra sem erro:
+    # o state.json continua intacto e ele tenta de novo na próxima hora.
+    try:
+        html = fetch(URL)
+    except requests.exceptions.RequestException as e:
+        print(f"Não foi possível acessar o site após {TENTATIVAS} tentativas: {e}")
+        print("Sem problema — nova checagem na próxima hora.")
+        return
+
     items = extract_items(html, URL)
     current = set(items.keys())
 
