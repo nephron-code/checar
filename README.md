@@ -1,6 +1,6 @@
-# Monitor de convocação HUL-UFS → Telegram
+# Monitor de convocação HUL-UFS, concursos UFS → Telegram
 
-App leve que checa a página de convocações do HUL-UFS de hora em hora e te
+App leve que checa a página de convocações do HUL-UFS, e os novos concursos da UFS de hora em hora e te
 avisa no Telegram quando um novo edital é publicado. Roda de graça no GitHub
 Actions, sem precisar de servidor.
 
