@@ -185,8 +185,3 @@ def main():
 if __name__ == "__main__":
     main()
 """
-
-with open('/mnt/data/main_atualizado.py', 'w', encoding='utf-8') as f:
-    f.write(code)
-    
-print("File saved")
