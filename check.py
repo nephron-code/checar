@@ -1,4 +1,4 @@
-code = """import os
+import os
 import json
 import time
 from datetime import datetime, timezone
@@ -25,7 +25,7 @@ TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID", "")
 
 
 def fetch(url):
-    \"\"\"Baixa a página, tentando algumas vezes se a rede falhar.\"\"\"
+    """Baixa a página, tentando algumas vezes se a rede falhar."""
     headers = {
         "User-Agent": (
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
@@ -49,9 +49,9 @@ def fetch(url):
 
 
 def extract_items_hul(html, base_url):
-    \"\"\"
+    """
     Filtro original do HUL. Pega PDFs baseados no prefixo da URL.
-    \"\"\"
+    """
     soup = BeautifulSoup(html, "html.parser")
     prefix = base_url.rstrip("/") + "/"
     items = {}
@@ -66,10 +66,10 @@ def extract_items_hul(html, base_url):
 
 
 def extract_items_cmop(html, base_url):
-    \"\"\"
+    """
     Filtro novo para a página do CMOP.
     Procura links que contenham palavras-chave no texto ou na URL.
-    \"\"\"
+    """
     soup = BeautifulSoup(html, "html.parser")
     items = {}
     for a in soup.find_all("a", href=True):
@@ -184,4 +184,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-"""
