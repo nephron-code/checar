@@ -20,6 +20,7 @@
     "https://www.gov.br/hubrasil/pt-br/acesso-a-informacao/agentes-publicos/concursos-e-selecoes/concursos/2026/convocacoes/hul-ufs/edital-no-99-2026-hul-ufs-concurso-nacional-01-2026.pdf"
   ],
   "known_cmop": [
+    "http://cmop.ufs.br/pagina/22473-divisao-de-recrutamento-e-selecao-de-pessoal-diresp",
     "http://dcmop.ufs.br/pagina/22473-divisao-de-recrutamento-e-selecao-de-pessoal-diresp",
     "http://www.ufs.br/uploads/page_attach/path/12061/RESOLUC__807_A__771_O_N__26-2020_CONEPE__1_.pdf",
     "https://cmop.ufs.br/conteudo/75038-edital-n-006-2024-resultado-da-afericao-da-autodeclaracao",
@@ -33,5 +34,5 @@
     "https://cmop.ufs.br/conteudo/79778"
   ],
   "initialized": true,
-  "last_checked": "2026-10-22T14:11:48.520170+00:00"
+  "last_checked": "2026-10-22T18:56:02.634788+00:00"
 }
